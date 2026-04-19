@@ -53,4 +53,4 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Node.js** — Runtime
 - **Express** — Web framework
 - **EJS** — Server-side template engine
-- **Roboto Condensed** — Typography
+- **Roboto** — Typography
