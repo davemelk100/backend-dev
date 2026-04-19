@@ -168,12 +168,18 @@ a:hover {
 .card-icon {
   font-size: 2rem;
   margin-bottom: 12px;
-  color: var(--accent);
 }
 
-.card:nth-child(even) .card-icon {
-  color: #e05d44;
-}
+.card:nth-child(1) .card-icon  { color: #2563eb; }
+.card:nth-child(2) .card-icon  { color: #e05d44; }
+.card:nth-child(3) .card-icon  { color: #0d9488; }
+.card:nth-child(4) .card-icon  { color: #9333ea; }
+.card:nth-child(5) .card-icon  { color: #d97706; }
+.card:nth-child(6) .card-icon  { color: #dc2626; }
+.card:nth-child(7) .card-icon  { color: #2563eb; }
+.card:nth-child(8) .card-icon  { color: #0d9488; }
+.card:nth-child(9) .card-icon  { color: #d97706; }
+.card:nth-child(10) .card-icon { color: #9333ea; }
 
 .card h3 {
   font-size: 1.15rem;
