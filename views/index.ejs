@@ -12,7 +12,7 @@
   <div class="grid">
     <% topics.forEach(topic => { %>
       <a href="/topics/<%= topic.id %>" class="card">
-        <div class="card-icon"><%= topic.icon %></div>
+        <div class="card-icon"><i class="<%= topic.icon %>"></i></div>
         <h3><%= topic.title %></h3>
         <p><%= topic.description %></p>
         <span class="card-link">Start Module →</span>

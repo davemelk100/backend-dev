@@ -2,7 +2,7 @@
   {
     "id": "http-fundamentals",
     "title": "HTTP Fundamentals",
-    "icon": "🌐",
+    "icon": "ph ph-globe-simple",
     "description": "Understanding HTTP methods, status codes, headers, and the request-response lifecycle.",
     "sections": [
       {
@@ -27,7 +27,7 @@
   {
     "id": "rest-api-design",
     "title": "REST API Design",
-    "icon": "🔗",
+    "icon": "ph ph-plugs-connected",
     "description": "Designing clean, consistent, and scalable RESTful APIs with proper resource modeling.",
     "sections": [
       {
@@ -53,7 +53,7 @@
   {
     "id": "databases",
     "title": "Databases & Data Modeling",
-    "icon": "🗄️",
+    "icon": "ph ph-database",
     "description": "SQL vs NoSQL, schema design, indexing, queries, and data relationships.",
     "sections": [
       {
@@ -78,7 +78,7 @@
   {
     "id": "authentication",
     "title": "Authentication & Authorization",
-    "icon": "🔐",
+    "icon": "ph ph-lock-key",
     "description": "JWT, OAuth 2.0, session management, role-based access control, and security best practices.",
     "sections": [
       {
@@ -104,7 +104,7 @@
   {
     "id": "middleware",
     "title": "Middleware & Request Pipeline",
-    "icon": "⚙️",
+    "icon": "ph ph-gear",
     "description": "Building composable middleware for logging, validation, error handling, and more.",
     "sections": [
       {
@@ -126,7 +126,7 @@
   {
     "id": "error-handling",
     "title": "Error Handling & Logging",
-    "icon": "🚨",
+    "icon": "ph ph-warning-circle",
     "description": "Structured error handling, logging strategies, and observability fundamentals.",
     "sections": [
       {
@@ -148,7 +148,7 @@
   {
     "id": "testing",
     "title": "Testing Backend Code",
-    "icon": "🧪",
+    "icon": "ph ph-test-tube",
     "description": "Unit tests, integration tests, API tests, and test-driven development for backend systems.",
     "sections": [
       {
@@ -174,7 +174,7 @@
   {
     "id": "security",
     "title": "Security Best Practices",
-    "icon": "🛡️",
+    "icon": "ph ph-shield-check",
     "description": "Input validation, SQL injection prevention, XSS, CSRF, rate limiting, and secure headers.",
     "sections": [
       {
@@ -201,7 +201,7 @@
   {
     "id": "performance",
     "title": "Performance & Caching",
-    "icon": "⚡",
+    "icon": "ph ph-lightning",
     "description": "Caching strategies, database optimization, async processing, and load testing.",
     "sections": [
       {
@@ -226,7 +226,7 @@
   {
     "id": "deployment",
     "title": "Deployment & DevOps",
-    "icon": "🚀",
+    "icon": "ph ph-rocket-launch",
     "description": "CI/CD pipelines, Docker, environment configuration, health checks, and production readiness.",
     "sections": [
       {
