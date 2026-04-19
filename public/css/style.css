@@ -171,6 +171,10 @@ a:hover {
   color: var(--accent);
 }
 
+.card:nth-child(even) .card-icon {
+  color: #e05d44;
+}
+
 .card h3 {
   font-size: 1.15rem;
   font-weight: 700;
@@ -219,6 +223,10 @@ a:hover {
 .topic-icon {
   font-size: 2.2rem;
   color: var(--accent);
+}
+
+.topic-icon.even {
+  color: #e05d44;
 }
 
 .topic-hero h1 {
