@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<section class="topic-hero">
+  <div class="container">
+    <a href="/" class="back-link">← All Modules</a>
+    <div class="topic-hero-header">
+      <span class="topic-icon"><%= topic.icon %></span>
+      <h1><%= topic.title %></h1>
+    </div>
+    <p class="topic-desc"><%= topic.description %></p>
+  </div>
+</section>
+
+<section class="topic-content container">
+  <div class="toc">
+    <h3>Contents</h3>
+    <ul>
+      <% topic.sections.forEach((section, i) => { %>
+        <li><a href="#section-<%= i %>"><%= section.heading %></a></li>
+      <% }) %>
+    </ul>
+  </div>
+
+  <% topic.sections.forEach((section, i) => { %>
+    <div class="content-section" id="section-<%= i %>">
+      <h2><%= section.heading %></h2>
+      <div class="section-body">
+        <% section.content.split('\n').forEach(line => { %>
+          <% if (line.trim()) { %>
+            <p><%- line.replace(/</g, '&lt;').replace(/>/g, '&gt;') %></p>
+          <% } %>
+        <% }) %>
+      </div>
+      <% if (section.code) { %>
+        <div class="code-block">
+          <div class="code-header">
+            <span>Code Example</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code><%= section.code %></code></pre>
+        </div>
+      <% } %>
+    </div>
+  <% }) %>
+
+  <div class="topic-nav">
+    <% if (prevTopic) { %>
+      <a href="/topics/<%= prevTopic.id %>" class="topic-nav-link prev">
+        <span class="topic-nav-dir">← Previous</span>
+        <span class="topic-nav-title"><%= prevTopic.title %></span>
+      </a>
+    <% } else { %>
+      <div></div>
+    <% } %>
+    <% if (nextTopic) { %>
+      <a href="/topics/<%= nextTopic.id %>" class="topic-nav-link next">
+        <span class="topic-nav-dir">Next →</span>
+        <span class="topic-nav-title"><%= nextTopic.title %></span>
+      </a>
+    <% } %>
+  </div>
+</section>
+
+<script src="/js/main.js"></script>
+
+<%- include('partials/footer') %>

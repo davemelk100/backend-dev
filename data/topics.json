@@ -1,0 +1,253 @@
+[
+  {
+    "id": "http-fundamentals",
+    "title": "HTTP Fundamentals",
+    "icon": "🌐",
+    "description": "Understanding HTTP methods, status codes, headers, and the request-response lifecycle.",
+    "sections": [
+      {
+        "heading": "The Request-Response Cycle",
+        "content": "Every interaction on the web follows a simple pattern: a client sends a request, and a server sends back a response. Understanding this cycle is the foundation of backend development.\n\nA request consists of a method (GET, POST, PUT, DELETE, etc.), a URL, headers, and optionally a body. The server processes the request and returns a response with a status code, headers, and a body."
+      },
+      {
+        "heading": "HTTP Methods",
+        "content": "The most common HTTP methods map to CRUD operations:\n\n• GET — Read a resource. Should be idempotent and safe (no side effects).\n• POST — Create a new resource. Not idempotent.\n• PUT — Update/replace an entire resource. Idempotent.\n• PATCH — Partially update a resource.\n• DELETE — Remove a resource. Idempotent.",
+        "code": "// Express route examples\napp.get('/users', (req, res) => { /* list users */ });\napp.post('/users', (req, res) => { /* create user */ });\napp.put('/users/:id', (req, res) => { /* replace user */ });\napp.patch('/users/:id', (req, res) => { /* update user */ });\napp.delete('/users/:id', (req, res) => { /* delete user */ });"
+      },
+      {
+        "heading": "Status Codes",
+        "content": "Status codes tell the client what happened:\n\n• 1xx — Informational\n• 2xx — Success (200 OK, 201 Created, 204 No Content)\n• 3xx — Redirection (301 Moved Permanently, 304 Not Modified)\n• 4xx — Client Error (400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found)\n• 5xx — Server Error (500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable)"
+      },
+      {
+        "heading": "Headers",
+        "content": "Headers carry metadata about the request or response:\n\n• Content-Type — Describes the format of the body (application/json, text/html)\n• Authorization — Carries authentication credentials\n• Cache-Control — Directs caching behavior\n• Accept — What content types the client can handle\n• CORS headers — Control cross-origin access (Access-Control-Allow-Origin)"
+      }
+    ]
+  },
+  {
+    "id": "rest-api-design",
+    "title": "REST API Design",
+    "icon": "🔗",
+    "description": "Designing clean, consistent, and scalable RESTful APIs with proper resource modeling.",
+    "sections": [
+      {
+        "heading": "REST Principles",
+        "content": "REST (Representational State Transfer) is an architectural style, not a protocol. Its core constraints are:\n\n• Client-Server — Separation of concerns between UI and data storage.\n• Stateless — Each request contains all information needed to process it.\n• Cacheable — Responses must define themselves as cacheable or not.\n• Uniform Interface — Consistent resource identification and manipulation.\n• Layered System — Client doesn't know if it's connected directly to the server."
+      },
+      {
+        "heading": "Resource Naming",
+        "content": "Use nouns, not verbs. Resources are things, not actions.\n\n• Good: /users, /orders/123, /users/5/orders\n• Bad: /getUsers, /createOrder, /deleteUser\n\nUse plural nouns for collections. Use path parameters for specific resources. Use query parameters for filtering, sorting, and pagination.",
+        "code": "// Good resource design\nGET    /api/products              // List products\nGET    /api/products/42           // Get product 42\nPOST   /api/products              // Create product\nPUT    /api/products/42           // Update product 42\nDELETE /api/products/42           // Delete product 42\n\n// Filtering and pagination\nGET /api/products?category=electronics&page=2&limit=20\n\n// Nested resources\nGET /api/users/5/orders           // Orders for user 5"
+      },
+      {
+        "heading": "Response Design",
+        "content": "Consistent response envelopes make APIs easier to consume:\n\n• Always return JSON with a predictable structure.\n• Include pagination metadata for list endpoints.\n• Use appropriate status codes.\n• Return the created/updated resource on write operations.",
+        "code": "// Consistent response format\n{\n  \"data\": [...],\n  \"meta\": {\n    \"page\": 2,\n    \"limit\": 20,\n    \"total\": 157\n  }\n}\n\n// Error response\n{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Email is required\",\n    \"details\": [\n      { \"field\": \"email\", \"message\": \"must not be empty\" }\n    ]\n  }\n}"
+      },
+      {
+        "heading": "Versioning",
+        "content": "APIs evolve. Versioning prevents breaking existing clients.\n\n• URL versioning: /api/v1/users (most common, easy to understand)\n• Header versioning: Accept: application/vnd.api+json;version=1\n• Query parameter: /api/users?version=1\n\nURL versioning is the simplest and most widely adopted approach."
+      }
+    ]
+  },
+  {
+    "id": "databases",
+    "title": "Databases & Data Modeling",
+    "icon": "🗄️",
+    "description": "SQL vs NoSQL, schema design, indexing, queries, and data relationships.",
+    "sections": [
+      {
+        "heading": "SQL vs NoSQL",
+        "content": "Choose based on your data and access patterns:\n\nSQL (PostgreSQL, MySQL): Best for structured data with relationships, ACID compliance, complex queries, and strong consistency. Use when data integrity is critical.\n\nNoSQL (MongoDB, Redis, DynamoDB): Best for flexible schemas, horizontal scaling, high write throughput, or document-oriented data. Use when speed and flexibility outweigh strict consistency."
+      },
+      {
+        "heading": "Schema Design",
+        "content": "Good schema design prevents performance problems later:\n\n• Normalize to reduce redundancy (3NF for most applications).\n• Denormalize strategically for read-heavy workloads.\n• Choose appropriate data types — don't use VARCHAR(255) for everything.\n• Add constraints at the database level (NOT NULL, UNIQUE, FOREIGN KEY).\n• Use UUIDs vs auto-increment IDs based on your scaling needs.",
+        "code": "-- Well-designed schema\nCREATE TABLE users (\n  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  email       VARCHAR(320) NOT NULL UNIQUE,\n  name        VARCHAR(100) NOT NULL,\n  created_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW(),\n  updated_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW()\n);\n\nCREATE TABLE orders (\n  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  user_id     UUID NOT NULL REFERENCES users(id),\n  status      VARCHAR(20) NOT NULL DEFAULT 'pending'\n                CHECK (status IN ('pending','confirmed','shipped','delivered')),\n  total_cents INTEGER NOT NULL CHECK (total_cents >= 0),\n  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE INDEX idx_orders_user_id ON orders(user_id);\nCREATE INDEX idx_orders_status ON orders(status);"
+      },
+      {
+        "heading": "Indexing",
+        "content": "Indexes make reads fast but slow down writes:\n\n• Index columns used in WHERE, JOIN, and ORDER BY clauses.\n• Use composite indexes for multi-column queries (order matters).\n• Avoid over-indexing — each index adds write overhead.\n• Use EXPLAIN ANALYZE to verify your queries use indexes.\n• Consider partial indexes for filtering subsets of data."
+      },
+      {
+        "heading": "Migrations",
+        "content": "Schema changes should be version-controlled and reversible:\n\n• Use migration tools (Knex, Prisma, Flyway, Alembic).\n• Each migration has an up (apply) and down (rollback) function.\n• Never edit a migration that has been applied to production.\n• Test migrations against production-like data volumes.\n• Consider zero-downtime migration patterns for large tables."
+      }
+    ]
+  },
+  {
+    "id": "authentication",
+    "title": "Authentication & Authorization",
+    "icon": "🔐",
+    "description": "JWT, OAuth 2.0, session management, role-based access control, and security best practices.",
+    "sections": [
+      {
+        "heading": "Authentication vs Authorization",
+        "content": "Authentication answers: \"Who are you?\" — verifying identity.\nAuthorization answers: \"What can you do?\" — verifying permissions.\n\nThey are separate concerns and should be implemented as separate middleware layers."
+      },
+      {
+        "heading": "Session-Based Auth",
+        "content": "The traditional approach — server stores session state:\n\n1. User submits credentials.\n2. Server validates and creates a session (stored in memory, database, or Redis).\n3. Server sends a session ID cookie.\n4. Client sends the cookie on every subsequent request.\n5. Server looks up the session to identify the user.\n\nPros: Easy to invalidate, server has full control.\nCons: Requires server-side storage, harder to scale horizontally."
+      },
+      {
+        "heading": "Token-Based Auth (JWT)",
+        "content": "Stateless approach — token contains the identity:\n\n1. User submits credentials.\n2. Server validates and issues a signed JWT.\n3. Client stores the token and sends it in the Authorization header.\n4. Server verifies the token signature — no database lookup needed.\n\nPros: Stateless, scales horizontally.\nCons: Can't easily revoke tokens, token size adds to every request.",
+        "code": "const jwt = require('jsonwebtoken');\n\n// Issue token\nfunction login(req, res) {\n  const user = authenticate(req.body);\n  const token = jwt.sign(\n    { sub: user.id, role: user.role },\n    process.env.JWT_SECRET,\n    { expiresIn: '1h' }\n  );\n  res.json({ token });\n}\n\n// Verify middleware\nfunction authMiddleware(req, res, next) {\n  const token = req.headers.authorization?.split(' ')[1];\n  if (!token) return res.status(401).json({ error: 'No token' });\n  try {\n    req.user = jwt.verify(token, process.env.JWT_SECRET);\n    next();\n  } catch {\n    res.status(401).json({ error: 'Invalid token' });\n  }\n}"
+      },
+      {
+        "heading": "Role-Based Access Control",
+        "content": "RBAC assigns permissions to roles, and roles to users:\n\n• Define roles: admin, editor, viewer\n• Assign permissions to roles: admin can delete, editor can write, viewer can read\n• Check permissions in middleware before executing the handler",
+        "code": "function requireRole(...roles) {\n  return (req, res, next) => {\n    if (!roles.includes(req.user.role)) {\n      return res.status(403).json({ error: 'Insufficient permissions' });\n    }\n    next();\n  };\n}\n\n// Usage\napp.delete('/api/users/:id',\n  authMiddleware,\n  requireRole('admin'),\n  deleteUserHandler\n);"
+      }
+    ]
+  },
+  {
+    "id": "middleware",
+    "title": "Middleware & Request Pipeline",
+    "icon": "⚙️",
+    "description": "Building composable middleware for logging, validation, error handling, and more.",
+    "sections": [
+      {
+        "heading": "What Is Middleware?",
+        "content": "Middleware functions sit between the request and the response. They can:\n\n• Execute code before/after the handler\n• Modify the request or response objects\n• End the request-response cycle\n• Call the next middleware in the stack\n\nThink of middleware as a pipeline — each function processes the request and either passes it along or sends a response."
+      },
+      {
+        "heading": "Common Middleware Patterns",
+        "content": "Most backends use these middleware layers (in order):\n\n1. Request logging — Log method, URL, and response time.\n2. Body parsing — Parse JSON, URL-encoded, or multipart data.\n3. CORS — Set cross-origin headers.\n4. Authentication — Verify identity.\n5. Rate limiting — Prevent abuse.\n6. Route handlers — Business logic.\n7. Error handling — Catch and format errors.",
+        "code": "const express = require('express');\nconst app = express();\n\n// 1. Request logging\napp.use((req, res, next) => {\n  const start = Date.now();\n  res.on('finish', () => {\n    const ms = Date.now() - start;\n    console.log(`${req.method} ${req.url} ${res.statusCode} ${ms}ms`);\n  });\n  next();\n});\n\n// 2. Body parsing\napp.use(express.json());\n\n// 3. CORS\napp.use((req, res, next) => {\n  res.header('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN);\n  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');\n  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');\n  next();\n});\n\n// Routes go here...\n\n// 7. Error handling (must be last, must have 4 params)\napp.use((err, req, res, next) => {\n  console.error(err.stack);\n  res.status(err.status || 500).json({\n    error: { message: err.message }\n  });\n});"
+      },
+      {
+        "heading": "Validation Middleware",
+        "content": "Validate inputs before they reach your business logic. Never trust client data.",
+        "code": "function validate(schema) {\n  return (req, res, next) => {\n    const { error } = schema.validate(req.body);\n    if (error) {\n      return res.status(400).json({\n        error: {\n          code: 'VALIDATION_ERROR',\n          details: error.details.map(d => d.message)\n        }\n      });\n    }\n    next();\n  };\n}\n\n// Usage with Joi\nconst Joi = require('joi');\nconst createUserSchema = Joi.object({\n  email: Joi.string().email().required(),\n  name: Joi.string().min(1).max(100).required(),\n  password: Joi.string().min(8).required()\n});\n\napp.post('/api/users', validate(createUserSchema), createUser);"
+      }
+    ]
+  },
+  {
+    "id": "error-handling",
+    "title": "Error Handling & Logging",
+    "icon": "🚨",
+    "description": "Structured error handling, logging strategies, and observability fundamentals.",
+    "sections": [
+      {
+        "heading": "Error Handling Strategy",
+        "content": "A solid error handling strategy has three layers:\n\n1. Operational errors — Expected failures (invalid input, network timeouts, auth failures). Handle gracefully with proper status codes and messages.\n\n2. Programming errors — Bugs (null references, type errors). These should crash the process in development and be caught by a global handler in production.\n\n3. Global catch-all — The last line of defense. Log the error, return a generic 500, and alert the team."
+      },
+      {
+        "heading": "Custom Error Classes",
+        "content": "Create error classes that carry HTTP status codes and error codes:",
+        "code": "class AppError extends Error {\n  constructor(message, statusCode, code) {\n    super(message);\n    this.statusCode = statusCode;\n    this.code = code;\n    this.isOperational = true;\n  }\n}\n\nclass NotFoundError extends AppError {\n  constructor(resource) {\n    super(`${resource} not found`, 404, 'NOT_FOUND');\n  }\n}\n\nclass ValidationError extends AppError {\n  constructor(details) {\n    super('Validation failed', 400, 'VALIDATION_ERROR');\n    this.details = details;\n  }\n}\n\n// Usage in route handler\nasync function getUser(req, res, next) {\n  try {\n    const user = await db.users.findById(req.params.id);\n    if (!user) throw new NotFoundError('User');\n    res.json({ data: user });\n  } catch (err) {\n    next(err);\n  }\n}"
+      },
+      {
+        "heading": "Structured Logging",
+        "content": "Log in JSON format for easy parsing and searching:\n\n• Use log levels: error, warn, info, debug\n• Include request IDs to trace requests across services\n• Log at boundaries: incoming requests, outgoing calls, errors\n• Never log sensitive data (passwords, tokens, PII)",
+        "code": "const pino = require('pino');\nconst logger = pino({ level: process.env.LOG_LEVEL || 'info' });\n\n// Request logging middleware\napp.use((req, res, next) => {\n  req.id = crypto.randomUUID();\n  req.log = logger.child({ requestId: req.id });\n  req.log.info({ method: req.method, url: req.url }, 'request started');\n  next();\n});\n\n// In handlers\nasync function createOrder(req, res, next) {\n  req.log.info({ userId: req.user.id }, 'creating order');\n  const order = await orderService.create(req.body);\n  req.log.info({ orderId: order.id }, 'order created');\n  res.status(201).json({ data: order });\n}"
+      }
+    ]
+  },
+  {
+    "id": "testing",
+    "title": "Testing Backend Code",
+    "icon": "🧪",
+    "description": "Unit tests, integration tests, API tests, and test-driven development for backend systems.",
+    "sections": [
+      {
+        "heading": "The Testing Pyramid",
+        "content": "Structure your tests in layers:\n\n• Unit tests (base) — Test individual functions and modules in isolation. Fast, many of these.\n• Integration tests (middle) — Test how modules work together, including database queries. Moderate speed.\n• End-to-end / API tests (top) — Test the full request-response cycle. Slow, fewer of these.\n\nAim for a healthy ratio: many unit tests, some integration tests, few E2E tests."
+      },
+      {
+        "heading": "Unit Testing",
+        "content": "Test pure logic in isolation. Mock external dependencies.",
+        "code": "// priceCalculator.js\nfunction calculateTotal(items, taxRate) {\n  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);\n  const tax = Math.round(subtotal * taxRate);\n  return { subtotal, tax, total: subtotal + tax };\n}\n\n// priceCalculator.test.js\nconst { calculateTotal } = require('./priceCalculator');\n\ndescribe('calculateTotal', () => {\n  it('sums item prices and applies tax', () => {\n    const items = [\n      { price: 1000, qty: 2 },\n      { price: 500,  qty: 1 }\n    ];\n    const result = calculateTotal(items, 0.08);\n    expect(result.subtotal).toBe(2500);\n    expect(result.tax).toBe(200);\n    expect(result.total).toBe(2700);\n  });\n\n  it('returns zero for empty cart', () => {\n    const result = calculateTotal([], 0.08);\n    expect(result.total).toBe(0);\n  });\n});"
+      },
+      {
+        "heading": "API / Integration Testing",
+        "content": "Test the full HTTP layer with a real (test) database:",
+        "code": "const request = require('supertest');\nconst app = require('../server');\n\ndescribe('POST /api/users', () => {\n  it('creates a user and returns 201', async () => {\n    const res = await request(app)\n      .post('/api/users')\n      .send({ email: 'test@example.com', name: 'Test', password: 'securepass1' })\n      .expect(201);\n\n    expect(res.body.data).toHaveProperty('id');\n    expect(res.body.data.email).toBe('test@example.com');\n  });\n\n  it('returns 400 for missing email', async () => {\n    const res = await request(app)\n      .post('/api/users')\n      .send({ name: 'Test' })\n      .expect(400);\n\n    expect(res.body.error.code).toBe('VALIDATION_ERROR');\n  });\n});"
+      },
+      {
+        "heading": "Test-Driven Development",
+        "content": "TDD follows a simple cycle:\n\n1. Red — Write a failing test for the behavior you want.\n2. Green — Write the minimum code to make it pass.\n3. Refactor — Clean up without changing behavior.\n\nTDD works especially well for backend code because inputs and outputs are clearly defined (HTTP request in, JSON response out)."
+      }
+    ]
+  },
+  {
+    "id": "security",
+    "title": "Security Best Practices",
+    "icon": "🛡️",
+    "description": "Input validation, SQL injection prevention, XSS, CSRF, rate limiting, and secure headers.",
+    "sections": [
+      {
+        "heading": "OWASP Top 10 for Backend Devs",
+        "content": "The most critical security risks:\n\n1. Injection — SQL, NoSQL, command injection. Always use parameterized queries.\n2. Broken Authentication — Weak passwords, missing MFA, insecure token storage.\n3. Sensitive Data Exposure — Unencrypted data, verbose errors leaking internals.\n4. Broken Access Control — Missing authorization checks, IDOR vulnerabilities.\n5. Security Misconfiguration — Default credentials, unnecessary services, verbose errors.\n6. XSS — Even backend-rendered templates can inject unsanitized user input.\n7. Insecure Deserialization — Never deserialize untrusted data.\n8. Insufficient Logging — Can't detect attacks without proper audit logs.\n9. SSRF — Server-side request forgery through unvalidated URLs.\n10. Mass Assignment — Accepting all fields from user input into database models."
+      },
+      {
+        "heading": "SQL Injection Prevention",
+        "content": "Never concatenate user input into SQL queries. Always use parameterized queries or an ORM.",
+        "code": "// VULNERABLE — never do this\nconst query = `SELECT * FROM users WHERE email = '${req.body.email}'`;\n\n// SAFE — parameterized query\nconst result = await db.query(\n  'SELECT * FROM users WHERE email = $1',\n  [req.body.email]\n);\n\n// SAFE — using an ORM\nconst user = await User.findOne({ where: { email: req.body.email } });"
+      },
+      {
+        "heading": "Secure Headers",
+        "content": "Set security headers on every response:",
+        "code": "const helmet = require('helmet');\napp.use(helmet());\n\n// helmet sets these headers (and more):\n// X-Content-Type-Options: nosniff\n// X-Frame-Options: DENY\n// Strict-Transport-Security: max-age=15552000\n// X-XSS-Protection: 0 (deprecated, CSP is better)\n// Content-Security-Policy: default-src 'self'"
+      },
+      {
+        "heading": "Rate Limiting",
+        "content": "Protect your API from abuse and brute-force attacks:",
+        "code": "const rateLimit = require('express-rate-limit');\n\nconst limiter = rateLimit({\n  windowMs: 15 * 60 * 1000, // 15 minutes\n  max: 100,                  // 100 requests per window\n  standardHeaders: true,\n  legacyHeaders: false,\n  message: { error: { code: 'RATE_LIMITED', message: 'Too many requests' } }\n});\n\napp.use('/api/', limiter);\n\n// Stricter limit for auth endpoints\nconst authLimiter = rateLimit({\n  windowMs: 15 * 60 * 1000,\n  max: 5\n});\napp.use('/api/auth/login', authLimiter);"
+      }
+    ]
+  },
+  {
+    "id": "performance",
+    "title": "Performance & Caching",
+    "icon": "⚡",
+    "description": "Caching strategies, database optimization, async processing, and load testing.",
+    "sections": [
+      {
+        "heading": "Caching Layers",
+        "content": "Cache at the right level for your use case:\n\n• Application cache (in-memory) — Fastest, but limited to one process. Use for config, static lookups.\n• Redis / Memcached — Shared cache across processes. Use for session data, API responses, computed results.\n• HTTP cache — CDN/browser caching via Cache-Control headers. Use for static assets and rarely-changing API responses.\n• Database query cache — Some databases cache query results. Understand your DB's caching behavior."
+      },
+      {
+        "heading": "Redis Caching Pattern",
+        "content": "Cache-aside (lazy loading) is the most common pattern:",
+        "code": "const Redis = require('ioredis');\nconst redis = new Redis();\n\nasync function getProduct(id) {\n  // 1. Check cache\n  const cached = await redis.get(`product:${id}`);\n  if (cached) return JSON.parse(cached);\n\n  // 2. Cache miss — fetch from DB\n  const product = await db.products.findById(id);\n  if (!product) return null;\n\n  // 3. Store in cache with TTL\n  await redis.setex(`product:${id}`, 3600, JSON.stringify(product));\n\n  return product;\n}\n\n// Invalidate on update\nasync function updateProduct(id, data) {\n  await db.products.update(id, data);\n  await redis.del(`product:${id}`); // Invalidate cache\n}"
+      },
+      {
+        "heading": "Database Optimization",
+        "content": "Common performance wins:\n\n• Use EXPLAIN ANALYZE on slow queries to understand the execution plan.\n• Add indexes for frequently queried columns.\n• Avoid SELECT * — fetch only the columns you need.\n• Use connection pooling to avoid connection overhead.\n• Batch inserts/updates instead of one-at-a-time.\n• Consider read replicas for read-heavy workloads."
+      },
+      {
+        "heading": "Async Processing",
+        "content": "Move slow work out of the request path:\n\n• Email sending — Queue it, don't block the response.\n• Image processing — Offload to a worker.\n• Report generation — Process in the background, notify when done.\n• Third-party API calls — Queue if the response isn't needed immediately.\n\nUse job queues (Bull, BullMQ, Celery, Sidekiq) to process work asynchronously with retries and monitoring."
+      }
+    ]
+  },
+  {
+    "id": "deployment",
+    "title": "Deployment & DevOps",
+    "icon": "🚀",
+    "description": "CI/CD pipelines, Docker, environment configuration, health checks, and production readiness.",
+    "sections": [
+      {
+        "heading": "Environment Configuration",
+        "content": "Never hardcode secrets or environment-specific values:\n\n• Use environment variables for configuration.\n• Use .env files for local development (never commit them).\n• Use a secrets manager (AWS Secrets Manager, Vault) in production.\n• Validate all required env vars at startup — fail fast with a clear error.",
+        "code": "// config.js — validate at startup\nconst required = ['DATABASE_URL', 'JWT_SECRET', 'REDIS_URL'];\nconst missing = required.filter(key => !process.env[key]);\n\nif (missing.length > 0) {\n  console.error(`Missing required env vars: ${missing.join(', ')}`);\n  process.exit(1);\n}\n\nmodule.exports = {\n  db: { url: process.env.DATABASE_URL },\n  jwt: { secret: process.env.JWT_SECRET },\n  redis: { url: process.env.REDIS_URL },\n  port: parseInt(process.env.PORT, 10) || 3000\n};"
+      },
+      {
+        "heading": "Docker",
+        "content": "Containerize your application for consistent deployments:",
+        "code": "FROM node:20-alpine\n\nWORKDIR /app\n\n# Install dependencies first (cached layer)\nCOPY package*.json ./\nRUN npm ci --only=production\n\n# Copy application code\nCOPY . .\n\nEXPOSE 3000\n\nHEALTHCHECK --interval=30s --timeout=3s \\\n  CMD wget -qO- http://localhost:3000/health || exit 1\n\nCMD [\"node\", \"server.js\"]"
+      },
+      {
+        "heading": "Health Checks",
+        "content": "Every production service needs health check endpoints:",
+        "code": "// Liveness — is the process running?\napp.get('/health', (req, res) => {\n  res.json({ status: 'ok' });\n});\n\n// Readiness — can it handle traffic?\napp.get('/ready', async (req, res) => {\n  try {\n    await db.query('SELECT 1');\n    await redis.ping();\n    res.json({ status: 'ready' });\n  } catch (err) {\n    res.status(503).json({ status: 'not ready', error: err.message });\n  }\n});"
+      },
+      {
+        "heading": "CI/CD Pipeline",
+        "content": "Automate your deployment pipeline:\n\n1. Lint — Check code style and catch common errors.\n2. Test — Run unit, integration, and API tests.\n3. Build — Create the production artifact (Docker image).\n4. Deploy to staging — Verify in a production-like environment.\n5. Deploy to production — Use rolling deploys or blue-green.\n\nEvery merge to main should trigger this pipeline automatically. Never deploy manually to production."
+      }
+    ]
+  }
+]

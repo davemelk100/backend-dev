@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Backend Development Training</h1>
+    <p class="hero-sub">A comprehensive guide to building robust, scalable, and secure server-side applications.</p>
+  </div>
+</section>
+
+<section class="topics-grid container">
+  <h2 class="section-title">Training Modules</h2>
+  <div class="grid">
+    <% topics.forEach(topic => { %>
+      <a href="/topics/<%= topic.id %>" class="card">
+        <div class="card-icon"><%= topic.icon %></div>
+        <h3><%= topic.title %></h3>
+        <p><%= topic.description %></p>
+        <span class="card-link">Start Module →</span>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
