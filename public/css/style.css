@@ -7,15 +7,15 @@
 }
 
 :root {
-  --bg: #0f1117;
-  --bg-card: #1a1d27;
-  --bg-code: #12141c;
-  --text: #e2e4e9;
-  --text-muted: #8b8fa3;
-  --accent: #6c9cfc;
-  --accent-hover: #8bb4ff;
-  --border: #2a2d3a;
-  --green: #4ade80;
+  --bg: #ffffff;
+  --bg-card: #f7f8fa;
+  --bg-code: #f0f2f5;
+  --text: #1a1d27;
+  --text-muted: #5f6577;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --border: #e2e4e9;
+  --green: #16652b;
   --radius: 8px;
 }
 
@@ -105,7 +105,7 @@ a:hover {
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, #161926 0%, #1e2235 100%);
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
   border-bottom: 1px solid var(--border);
   padding: 80px 24px;
   text-align: center;
@@ -192,7 +192,7 @@ a:hover {
 
 /* Topic Page */
 .topic-hero {
-  background: linear-gradient(135deg, #161926 0%, #1e2235 100%);
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
   border-bottom: 1px solid var(--border);
   padding: 48px 24px 52px;
 }
@@ -299,7 +299,7 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid var(--border);
   font-size: 0.8rem;
   color: var(--text-muted);
