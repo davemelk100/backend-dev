@@ -170,16 +170,28 @@ a:hover {
   margin-bottom: 12px;
 }
 
-.card:nth-child(1) .card-icon  { color: #2563eb; }
-.card:nth-child(2) .card-icon  { color: #e05d44; }
-.card:nth-child(3) .card-icon  { color: #0d9488; }
-.card:nth-child(4) .card-icon  { color: #9333ea; }
-.card:nth-child(5) .card-icon  { color: #d97706; }
-.card:nth-child(6) .card-icon  { color: #dc2626; }
-.card:nth-child(7) .card-icon  { color: #2563eb; }
-.card:nth-child(8) .card-icon  { color: #0d9488; }
-.card:nth-child(9) .card-icon  { color: #d97706; }
-.card:nth-child(10) .card-icon { color: #9333ea; }
+.card-icon i::before { opacity: 0.3; }
+
+.card:nth-child(1) .card-icon i::before  { color: #93c5fd; }
+.card:nth-child(1) .card-icon i::after   { color: #2563eb; }
+.card:nth-child(2) .card-icon i::before  { color: #fca5a5; }
+.card:nth-child(2) .card-icon i::after   { color: #dc2626; }
+.card:nth-child(3) .card-icon i::before  { color: #99f6e4; }
+.card:nth-child(3) .card-icon i::after   { color: #0d9488; }
+.card:nth-child(4) .card-icon i::before  { color: #d8b4fe; }
+.card:nth-child(4) .card-icon i::after   { color: #9333ea; }
+.card:nth-child(5) .card-icon i::before  { color: #fde68a; }
+.card:nth-child(5) .card-icon i::after   { color: #d97706; }
+.card:nth-child(6) .card-icon i::before  { color: #fca5a5; }
+.card:nth-child(6) .card-icon i::after   { color: #e05d44; }
+.card:nth-child(7) .card-icon i::before  { color: #93c5fd; }
+.card:nth-child(7) .card-icon i::after   { color: #2563eb; }
+.card:nth-child(8) .card-icon i::before  { color: #99f6e4; }
+.card:nth-child(8) .card-icon i::after   { color: #0d9488; }
+.card:nth-child(9) .card-icon i::before  { color: #fde68a; }
+.card:nth-child(9) .card-icon i::after   { color: #d97706; }
+.card:nth-child(10) .card-icon i::before { color: #d8b4fe; }
+.card:nth-child(10) .card-icon i::after  { color: #9333ea; }
 
 .card h3 {
   font-size: 1.15rem;
@@ -228,11 +240,15 @@ a:hover {
 
 .topic-icon {
   font-size: 2.2rem;
-  color: var(--accent);
 }
 
-.topic-icon.even {
-  color: #e05d44;
+.topic-icon i::before {
+  color: #93c5fd;
+  opacity: 0.3;
+}
+
+.topic-icon i::after {
+  color: #2563eb;
 }
 
 .topic-hero h1 {
