@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const topics = require('../data/topics.json');
+const { addTooltips } = require('../helpers/glossary');
 
 router.get('/:id', (req, res) => {
   const index = topics.findIndex(t => t.id === req.params.id);
@@ -16,6 +17,7 @@ router.get('/:id', (req, res) => {
     topic,
     prevTopic,
     nextTopic,
+    addTooltips,
     currentPath: `/topics/${topic.id}`
   });
 });

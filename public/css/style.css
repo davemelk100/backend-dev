@@ -296,6 +296,44 @@ a:hover {
   color: var(--accent);
 }
 
+/* Tooltips */
+.tooltip {
+  border-bottom: 1px dashed var(--accent);
+  cursor: help;
+  position: relative;
+}
+
+.tooltip:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--bg);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  width: max-content;
+  max-width: 280px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.tooltip:hover::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--text);
+  z-index: 10;
+  pointer-events: none;
+}
+
 /* Content Sections */
 .content-section {
   margin-bottom: 48px;

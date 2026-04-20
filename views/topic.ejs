@@ -27,7 +27,7 @@
       <div class="section-body">
         <% section.content.split('\n').forEach(line => { %>
           <% if (line.trim()) { %>
-            <p><%- line.replace(/</g, '&lt;').replace(/>/g, '&gt;') %></p>
+            <p><%- addTooltips(line.replace(/</g, '&lt;').replace(/>/g, '&gt;')) %></p>
           <% } %>
         <% }) %>
       </div>
