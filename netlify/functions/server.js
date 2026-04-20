@@ -1,5 +1,6 @@
 const serverless = require('serverless-http');
 const express = require('express');
+require('ejs');
 const path = require('path');
 const topicsRoute = require('../../routes/topics');
 
