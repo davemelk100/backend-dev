@@ -1,11 +1,12 @@
 const serverless = require('serverless-http');
 const express = require('express');
-require('ejs');
+const ejs = require('ejs');
 const path = require('path');
 const topicsRoute = require('../../routes/topics');
 
 const app = express();
 
+app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../../views'));
 
