@@ -23,5 +23,13 @@
   "pagination": "Breaking large result sets into smaller pages, typically using limit/offset or cursor-based approaches.",
   "middleware": "A function that runs between receiving a request and sending a response, used to add cross-cutting behavior like logging, auth, or validation.",
   "connection pooling": "Reusing a set of pre-established database connections instead of opening a new one for every query, reducing overhead.",
-  "blue-green": "A deployment strategy using two identical environments — one live (blue) and one idle (green) — to enable zero-downtime releases by switching traffic between them."
+  "blue-green": "A deployment strategy using two identical environments — one live (blue) and one idle (green) — to enable zero-downtime releases by switching traffic between them.",
+  "LINQ": "Language Integrated Query — a C# feature that provides a consistent syntax for querying collections, databases, and XML directly in code.",
+  "DbContext": "The primary Entity Framework class that represents a session with the database, providing access to tables via DbSet<T> properties.",
+  "OData": "Open Data Protocol — a standardized REST convention that lets clients control queries via URL parameters like $filter, $select, and $orderby.",
+  "ViewState": "A hidden form field in ASP.NET WebForms that persists the state of server controls between postbacks (page round-trips).",
+  "MVVM": "Model-View-ViewModel — a design pattern where the ViewModel exposes data and commands for the View, enabling clean separation and testability.",
+  "Razor": "A markup syntax for embedding C# code in HTML templates (.cshtml files) used by ASP.NET MVC and Razor Pages.",
+  "MAUI": ".NET Multi-platform App UI — the successor to Xamarin.Forms for building cross-platform native apps with a single C# codebase.",
+  "NuGet": "The package manager for .NET — similar to npm for Node.js. Packages are declared in .csproj files and restored on build."
 }

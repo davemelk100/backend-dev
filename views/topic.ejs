@@ -19,6 +19,26 @@
         <li><a href="#section-<%= i %>"><%= section.heading %></a></li>
       <% }) %>
     </ul>
+    <div class="read-aloud-controls">
+      <button class="read-aloud-btn" id="readAloudBtn" onclick="toggleReadAloud()">
+        <i class="ph-duotone ph-speaker-high"></i> Read Aloud
+      </button>
+      <div class="read-aloud-bar" id="readAloudBar">
+        <button class="ra-btn" id="raPrevBtn" onclick="raPrevSection()" title="Previous section">
+          <i class="ph-duotone ph-skip-back"></i>
+        </button>
+        <button class="ra-btn ra-btn-main" id="raPauseBtn" onclick="raPause()" title="Pause">
+          <i class="ph-duotone ph-pause"></i>
+        </button>
+        <button class="ra-btn" id="raNextBtn" onclick="raNextSection()" title="Next section">
+          <i class="ph-duotone ph-skip-forward"></i>
+        </button>
+        <button class="ra-btn ra-btn-stop" onclick="raStop()" title="Stop">
+          <i class="ph-duotone ph-stop"></i>
+        </button>
+        <span class="ra-status" id="raStatus"></span>
+      </div>
+    </div>
   </div>
 
   <% topic.sections.forEach((section, i) => { %>
